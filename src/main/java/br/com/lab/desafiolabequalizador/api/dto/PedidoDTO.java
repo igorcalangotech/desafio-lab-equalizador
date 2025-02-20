@@ -1,4 +1,4 @@
-package br.com.lab.desafiolabequalizador.controller.dto;
+package br.com.lab.desafiolabequalizador.api.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

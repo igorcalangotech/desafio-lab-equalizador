@@ -1,26 +1,33 @@
 package br.com.lab.desafiolabequalizador.service
 
-import br.com.lab.desafiolabequalizador.domain.Pedido
-import org.springframework.beans.factory.annotation.Value
+
+import br.com.lab.desafiolabequalizador.domain.PedidoLegado
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.core.io.Resource
+import org.springframework.core.io.UrlResource
+import org.springframework.mock.web.MockMultipartFile
 import spock.lang.Specification
 import spock.lang.Unroll
 
 import java.time.Month
+import java.util.stream.Collectors
 
 import static java.math.BigDecimal.valueOf
 import static java.time.LocalDate.of
 
 @SpringBootTest
-class ConversorPedidoTest extends Specification {
+class ConversorUsuarioLegadoTest extends Specification {
 
-    @Value("classpath:arquivos/data_1.txt")
-    String arquivoTesteUm;
+    Resource arquivoTesteUm;
+
+    def setup() {
+        arquivoTesteUm = new UrlResource(getClass().getClassLoader().getResource("arquivos/data_1.txt"))
+    }
 
     @Unroll
     def "deve converter uma linha em pedido"() {
         when: "converte uma linha em um pedido"
-        def pedido = new Pedido(linha)
+        def pedido = new PedidoLegado(linha)
 
         then: "os campos devem ser corretamente extraidos e convertidos"
         pedido.idUsuario == idUsuario
@@ -38,11 +45,27 @@ class ConversorPedidoTest extends Specification {
 
     def "deve carregar o conteúdo do arquivo via @Value"() {
         expect:
-        def resource = getClass().getClassLoader().getResource("arquivos/data_1.txt")
-        resource != null
+        arquivoTesteUm != null
     }
 
     def "deve realizar a conversao de um arquivo em uma lista de pedidos com sucesso"() {
+        given:
+        def file = new MockMultipartFile(
+                "file",
+                new FileInputStream(arquivoTesteUm.getFile()).readAllBytes()
+        )
+        def result = Collections.emptyList()
+        when:
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
 
+            result = reader.lines()
+                    .map { string -> string.trim() }
+                    .filter { linha -> !linha.isEmpty() }
+                    .map { algo -> return new PedidoLegado(algo) }
+                    .collect(Collectors.toList())
+
+        }
+        then:
+        result.size() == 2352
     }
 }
