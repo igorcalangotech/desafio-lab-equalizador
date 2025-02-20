@@ -1,9 +1,10 @@
 package br.com.lab.desafiolabequalizador.backend;
 
+import br.com.lab.desafiolabequalizador.api.dto.UsuarioDTO;
 import br.com.lab.desafiolabequalizador.api.v1.PedidoRestService;
 import br.com.lab.desafiolabequalizador.core.ports.driver.PedidoService;
-import br.com.lab.desafiolabequalizador.domain.PedidoLegado;
-import br.com.lab.desafiolabequalizador.domain.Usuario;
+import br.com.lab.desafiolabequalizador.mapper.UsuarioMapper;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,10 +17,13 @@ import java.util.List;
 public class PedidoController implements PedidoRestService {
 
     private final PedidoService service;
+    private final UsuarioMapper mapper;
 
     @Override
-    public ResponseEntity<List<Usuario>> converterPedido(MultipartFile file) {
-        return ResponseEntity.ok(service.converterPedido(file));
+    public ResponseEntity<List<UsuarioDTO>> converterPedido(@NotNull MultipartFile file) {
+        return ResponseEntity.ok(
+                mapper.toDto(service.converterPedido(file))
+        );
     }
 
 }

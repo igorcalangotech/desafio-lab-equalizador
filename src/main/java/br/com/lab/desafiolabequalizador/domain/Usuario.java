@@ -1,13 +1,9 @@
 package br.com.lab.desafiolabequalizador.domain;
 
-import br.com.lab.desafiolabequalizador.utils.PedidoUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -22,19 +18,18 @@ public class Usuario {
     private List<Pedido> pedidos;
 
     public Usuario(List<PedidoLegado> pedidosLegado) {
-        Map<Long, List<PedidoLegado>> collect = pedidosLegado.stream()
-                .collect(Collectors.groupingBy(PedidoLegado::getIdPedido));
         this.id = pedidosLegado.stream().map(PedidoLegado::getIdUsuario).findFirst().orElse(null);
         this.nome = extrairNome(pedidosLegado);
-        this.pedidos = pedidosLegado.stream()
-                .collect(Collectors.groupingBy(PedidoLegado::getIdPedido))
-                .entrySet().stream()
-                .map(this::converterPedido)
-                .collect(Collectors.toList());
+        this.pedidos = mapearPedidos(pedidosLegado);
     }
 
-    private Pedido converterPedido(Map.Entry<Long, List<PedidoLegado>> pedidoEntry) {
-        return new Pedido(pedidoEntry.getValue());
+    private List<Pedido> mapearPedidos(List<PedidoLegado> pedidosLegado) {
+        return pedidosLegado.stream()
+                .collect(Collectors.groupingBy(PedidoLegado::getIdPedido))
+                .values()
+                .stream()
+                .map(Pedido::new)
+                .collect(Collectors.toList());
     }
 
     private String extrairNome(List<PedidoLegado> pedidos) {

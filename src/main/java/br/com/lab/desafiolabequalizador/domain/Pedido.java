@@ -1,6 +1,5 @@
 package br.com.lab.desafiolabequalizador.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.math.BigDecimal;
@@ -21,13 +20,21 @@ public class Pedido {
 
     public Pedido(List<PedidoLegado> pedidoLegados) {
         this.id = pedidoLegados.stream().map(PedidoLegado::getIdPedido).findFirst().orElse(null);
-        this.produtos = pedidoLegados.stream()
+        this.produtos = mapearProdutos(pedidoLegados);
+        this.valor = calcularValorTotal(this.produtos);
+        this.data = extrairData(pedidoLegados);
+    }
+
+    private static List<Produto> mapearProdutos(List<PedidoLegado> pedidoLegados) {
+        return pedidoLegados.stream()
                 .map(item -> new Produto(item.getIdProduto(), item.getValor()))
                 .collect(Collectors.toList());
-        this.valor = this.produtos.stream()
+    }
+
+    private BigDecimal calcularValorTotal(List<Produto> produtos) {
+        return produtos.stream()
                 .map(Produto::getValor)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        this.data = extrairData(pedidoLegados);
     }
 
     private LocalDate extrairData(List<PedidoLegado> itens) {

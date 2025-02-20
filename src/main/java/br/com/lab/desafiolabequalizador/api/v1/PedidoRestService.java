@@ -1,6 +1,7 @@
 package br.com.lab.desafiolabequalizador.api.v1;
 
 
+import br.com.lab.desafiolabequalizador.api.dto.UsuarioDTO;
 import br.com.lab.desafiolabequalizador.domain.Usuario;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,7 +27,7 @@ public interface PedidoRestService {
             @ApiResponse(responseCode = "200", description = "Pedidos convertidos com sucesso")
     })
     @PostMapping("/legado/converter")
-    ResponseEntity<List<Usuario>> converterPedido(
+    ResponseEntity<List<UsuarioDTO>> converterPedido(
             @RequestParam("file") MultipartFile file
     );
 }
