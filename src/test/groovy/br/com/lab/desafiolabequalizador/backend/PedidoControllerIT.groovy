@@ -1,15 +1,30 @@
 package br.com.lab.desafiolabequalizador.backend
 
+import br.com.lab.desafiolabequalizador.DesafioLabEqualizadorApplication
 import br.com.lab.desafiolabequalizador.api.v1.PedidoRestService
-import br.com.lab.desafiolabequalizador.support.ITSupport
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.core.io.Resource
 import org.springframework.core.io.UrlResource
+import org.springframework.http.MediaType
 import org.springframework.mock.web.MockMultipartFile
+import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.ResultActions
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import spock.lang.Specification
 
-class PedidoControllerIT extends ITSupport {
+@SpringBootTest(classes = DesafioLabEqualizadorApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
+class PedidoControllerIT extends Specification {
 
     Resource primeiroArquivo
     Resource segundoArquivo
+
+    @Autowired
+    MockMvc mvc
 
     def setup() {
         primeiroArquivo = new UrlResource(getClass().getClassLoader().getResource("arquivos/data_1.txt"))
@@ -31,6 +46,14 @@ class PedidoControllerIT extends ITSupport {
 
         then:
         result != null
+    }
+
+    ResultActions httpPost(String path, MockMultipartFile file) {
+        mvc.perform(
+                MockMvcRequestBuilders.multipart(path)
+                        .file(file)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        )
     }
 
 }

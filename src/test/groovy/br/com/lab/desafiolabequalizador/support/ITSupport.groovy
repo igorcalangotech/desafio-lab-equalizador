@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import spock.lang.Specification
 
-@AutoConfigureMockMvc
+
 @SpringBootTest(classes = DesafioLabEqualizadorApplication.class)
 abstract class ITSupport extends Specification {
 

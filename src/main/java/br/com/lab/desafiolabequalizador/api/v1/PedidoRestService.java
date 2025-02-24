@@ -2,7 +2,6 @@ package br.com.lab.desafiolabequalizador.api.v1;
 
 
 import br.com.lab.desafiolabequalizador.api.dto.UsuarioDTO;
-import br.com.lab.desafiolabequalizador.domain.Usuario;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Tag(name = "Pedidos", description = "Endpoints para tratar dos pedidos do novo sistema")
@@ -29,6 +29,9 @@ public interface PedidoRestService {
     })
     @PostMapping(CONVERTER_ARQUIVO_LEGADO)
     ResponseEntity<List<UsuarioDTO>> converterPedido(
-            @RequestParam("file") MultipartFile file
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("idPedido") Long idPedido,
+            @RequestParam("dataInicio") LocalDate dataInicio,
+            @RequestParam("dataFim") LocalDate dataFim
     );
 }

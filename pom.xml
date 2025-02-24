@@ -76,7 +76,7 @@
     </dependencies>
 
     <build>
-        <testSourceDirectory>${project.basedir}/src/test/groovy</testSourceDirectory>
+        <testSourceDirectory>${project.basedir}/src/</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.jacoco</groupId>

@@ -1,6 +1,6 @@
 package br.com.lab.desafiolabequalizador.service
 
-import br.com.lab.desafiolabequalizador.domain.PedidoLegado
+import br.com.lab.desafiolabequalizador.core.domain.PedidoLegado
 import org.springframework.core.io.Resource
 import org.springframework.core.io.UrlResource
 import org.springframework.mock.web.MockMultipartFile

@@ -1,4 +1,4 @@
-package br.com.lab.desafiolabequalizador.domain;
+package br.com.lab.desafiolabequalizador.core.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package br.com.lab.desafiolabequalizador.mapper;
 
 import br.com.lab.desafiolabequalizador.api.dto.UsuarioDTO;
-import br.com.lab.desafiolabequalizador.domain.Usuario;
+import br.com.lab.desafiolabequalizador.core.domain.Usuario;
 import org.mapstruct.Mapper;
 
 import java.util.List;

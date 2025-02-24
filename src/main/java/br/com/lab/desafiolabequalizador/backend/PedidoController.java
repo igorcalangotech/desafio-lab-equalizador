@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -20,9 +21,14 @@ public class PedidoController implements PedidoRestService {
     private final UsuarioMapper mapper;
 
     @Override
-    public ResponseEntity<List<UsuarioDTO>> converterPedido(@NotNull MultipartFile file) {
+    public ResponseEntity<List<UsuarioDTO>> converterPedido(
+            @NotNull MultipartFile file,
+            Long idPedido,
+            LocalDate dataInicio,
+            LocalDate dataFim
+    ) {
         return ResponseEntity.ok(
-                mapper.toDto(service.converterParaNovoModelo(file))
+                mapper.toDto(service.converterParaNovoModelo(file, idPedido, dataInicio, dataFim))
         );
     }
 
