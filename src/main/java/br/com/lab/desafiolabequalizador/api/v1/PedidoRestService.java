@@ -21,12 +21,13 @@ import java.util.List;
 public interface PedidoRestService {
 
     String PATH = "/api/v1/pedido";
+    String CONVERTER_ARQUIVO_LEGADO = "/legado/converter";
 
     @Operation(summary = "Converte os pedidos", description = "Realiza a conversão dos pedidos do sistema legado para o novo sistema")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Pedidos convertidos com sucesso")
     })
-    @PostMapping("/legado/converter")
+    @PostMapping(CONVERTER_ARQUIVO_LEGADO)
     ResponseEntity<List<UsuarioDTO>> converterPedido(
             @RequestParam("file") MultipartFile file
     );

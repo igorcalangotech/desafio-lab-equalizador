@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface PedidoService {
 
-    List<Usuario> converterPedido(MultipartFile file);
+    List<Usuario> converterParaNovoModelo(MultipartFile file);
 
 }

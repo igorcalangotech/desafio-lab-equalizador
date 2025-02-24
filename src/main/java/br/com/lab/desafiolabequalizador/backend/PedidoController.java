@@ -22,7 +22,7 @@ public class PedidoController implements PedidoRestService {
     @Override
     public ResponseEntity<List<UsuarioDTO>> converterPedido(@NotNull MultipartFile file) {
         return ResponseEntity.ok(
-                mapper.toDto(service.converterPedido(file))
+                mapper.toDto(service.converterParaNovoModelo(file))
         );
     }
 

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class PedidoServiceImpl implements PedidoService {
 
     @Override
-    public List<Usuario> converterPedido(MultipartFile file) {
+    public List<Usuario> converterParaNovoModelo(MultipartFile file) {
         List<PedidoLegado> pedidosLegado = lerArquivoLegado(file);
         Map<Long, List<PedidoLegado>> pedidosPorUsuario = pedidosLegado.stream()
                 .collect(Collectors.groupingBy(PedidoLegado::getIdUsuario));
