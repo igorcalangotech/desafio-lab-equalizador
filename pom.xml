@@ -212,7 +212,6 @@
                 <configuration>
                     <forkCount>1</forkCount>
                     <useFile>false</useFile>
-                    <testFailureIgnore>true</testFailureIgnore>
                     <useSystemClassLoader>false</useSystemClassLoader>
                     <includes>
                         <include>**/*IT.groovy</include>

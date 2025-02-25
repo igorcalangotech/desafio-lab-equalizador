@@ -29,7 +29,7 @@ class PedidoControllerIT extends ITSupport {
 
     def "Deve converter um arquivo legado com sucesso"() {
         given:
-        def url = PedidoRestService.PATH + PedidoRestService.CONVERTER_ARQUIVO_LEGADO
+        def url = PedidoRestService.PATH
         def arquivo = new MockMultipartFile(
                 "file",
                 "fileName.txt",
@@ -47,7 +47,7 @@ class PedidoControllerIT extends ITSupport {
 
     def "Deve converter um arquivo legado com sucesso usando filtros de pesquisa"() {
         given:
-        def url = PedidoRestService.PATH + PedidoRestService.CONVERTER_ARQUIVO_LEGADO
+        def url = PedidoRestService.PATH
         def arquivo = new MockMultipartFile(
                 "file",
                 "fileName.txt",
@@ -89,7 +89,7 @@ class PedidoControllerIT extends ITSupport {
     }
 
     private static String buildUrlWIthParameters(Long idPedido, LocalDate dataInicio, LocalDate dataFim) {
-        def baseUrl = PedidoRestService.PATH + PedidoRestService.CONVERTER_ARQUIVO_LEGADO
+        def baseUrl = PedidoRestService.PATH
         def queryParams = [:]
 
         if (idPedido) queryParams["orderId"] = idPedido

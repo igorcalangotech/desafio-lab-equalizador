@@ -67,7 +67,7 @@ Para testar a API, execute o seguinte comando no terminal:
 🔥 Caso não seja necessario os filtros, basta remover.
 
 ```sh
-curl --location 'http://localhost:8080/api/v1/pedido/legado/converter?orderId=684&beginDate=2021-05-01&endDate=2021-05-30' \
+curl --location 'http://localhost:8080/api/v1/process-file?orderId=684&beginDate=2021-05-01&endDate=2021-05-30' \
 --form 'file=@"/diretorioArquivo/data_1.txt"'
 ```
 
