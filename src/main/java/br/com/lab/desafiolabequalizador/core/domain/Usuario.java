@@ -2,6 +2,7 @@ package br.com.lab.desafiolabequalizador.core.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Objects;
@@ -10,15 +11,14 @@ import java.util.stream.Collectors;
 import static br.com.lab.desafiolabequalizador.utils.PedidoUtils.singleOrThrow;
 
 @Getter
-@AllArgsConstructor
-public class Usuario {
+@NoArgsConstructor
+public class Usuario extends SerializableEntity {
 
-    private Long id;
     private String nome;
     private List<Pedido> pedidos;
 
     public Usuario(List<PedidoLegado> pedidosLegado) {
-        this.id = pedidosLegado.stream().map(PedidoLegado::getIdUsuario).findFirst().orElse(null);
+        super(pedidosLegado.stream().map(PedidoLegado::getIdUsuario).findFirst().orElse(null));
         this.nome = extrairNome(pedidosLegado);
         this.pedidos = mapearPedidos(pedidosLegado);
     }

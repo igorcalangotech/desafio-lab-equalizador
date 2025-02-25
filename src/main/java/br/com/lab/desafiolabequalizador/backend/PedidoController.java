@@ -22,7 +22,7 @@ public class PedidoController implements PedidoRestService {
 
     @Override
     public ResponseEntity<List<UsuarioDTO>> converterPedido(
-            @NotNull MultipartFile file,
+            MultipartFile file,
             Long idPedido,
             LocalDate dataInicio,
             LocalDate dataFim

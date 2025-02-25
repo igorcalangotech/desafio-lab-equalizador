@@ -7,6 +7,9 @@ import org.springframework.mock.web.MockMultipartFile
 import org.springframework.web.multipart.MultipartFile
 import spock.lang.Specification
 
+import java.time.LocalDate
+import java.time.Month
+
 class PedidoServiceTest extends Specification {
 
     Resource primeiroArquivo
@@ -18,7 +21,7 @@ class PedidoServiceTest extends Specification {
         segundoArquivo = new UrlResource(getClass().getClassLoader().getResource("arquivos/data_2.txt"))
     }
 
-    def "Deve gerar usuarios do modelo legado para o novo modelo"() {
+    def "Deve gerar usuarios do modelo legado para o novo modelo com sucesso"() {
         given:
         def file = new MockMultipartFile(
                 "file",
@@ -27,7 +30,7 @@ class PedidoServiceTest extends Specification {
                 new FileInputStream(primeiroArquivo.getFile()).readAllBytes()
         )
         when:
-        def usuarios = service.converterParaNovoModelo(file)
+        def usuarios = service.converterParaNovoModelo(file, null, null, null)
 
         then:
         usuarios.size() == 100
@@ -56,7 +59,7 @@ class PedidoServiceTest extends Specification {
         )
 
         when:
-        service.converterParaNovoModelo(file)
+        service.converterParaNovoModelo(file, null, null, null)
 
         then:
         def e = thrown(RuntimeException)
@@ -75,7 +78,7 @@ class PedidoServiceTest extends Specification {
         )
 
         when:
-        service.converterParaNovoModelo(file)
+        service.converterParaNovoModelo(file, null, null, null)
 
         then:
         def e = thrown(RuntimeException)
@@ -95,7 +98,7 @@ class PedidoServiceTest extends Specification {
         )
 
         when:
-        def result = service.converterParaNovoModelo(file)
+        def result = service.converterParaNovoModelo(file, null, null, null)
 
         then:
         result.size() == 1
@@ -113,7 +116,7 @@ class PedidoServiceTest extends Specification {
         )
 
         when:
-        service.converterParaNovoModelo(file)
+        service.converterParaNovoModelo(file, null, null, null)
 
         then:
         def e = thrown(RuntimeException)
@@ -132,7 +135,7 @@ class PedidoServiceTest extends Specification {
         )
 
         when:
-        service.converterParaNovoModelo(file)
+        service.converterParaNovoModelo(file, null, null, null)
 
         then:
         def e = thrown(RuntimeException)
@@ -145,11 +148,59 @@ class PedidoServiceTest extends Specification {
         file.getInputStream() >> { throw new IOException("Converter Erro") }
 
         when:
-        service.converterParaNovoModelo(file)
+        service.converterParaNovoModelo(file, null, null, null)
 
         then:
         def e = thrown(RuntimeException)
         e.message.contains("Erro ao converter arquivo")
+    }
+
+    def "Deve gerar usuarios do modelo legado para o novo modelo com filtros de data inicio e fim"() {
+        given:
+        def file = new MockMultipartFile(
+                "file",
+                "fileName.txt",
+                "text/plain",
+                new FileInputStream(primeiroArquivo.getFile()).readAllBytes()
+        )
+
+        def startDate = LocalDate.of(2021, Month.MAY, 1)
+        def endDate = LocalDate.of(2021, Month.MAY, 20)
+        when:
+        def usuarios = service.converterParaNovoModelo(file, null, startDate, endDate)
+
+        then:
+        usuarios.size() == 51
+        usuarios.unique { [it.id, it.nome] }.size() == usuarios.size()
+        usuarios.each { usuario ->
+            usuario.pedidos.unique { it.id }.size() == usuario.pedidos.size()
+            usuario.pedidos.each {
+                pedido ->
+                    pedido.valor == pedido.produtos.valor.inject(BigDecimal.ZERO) {
+                        acumulador, valor ->
+                            acumulador + valor
+                    }
+            }
+        }
+    }
+
+    def "Deve gerar usuarios do modelo legado para o novo modelo com filtro de idPedido"() {
+        given:
+        def file = new MockMultipartFile(
+                "file",
+                "fileName.txt",
+                "text/plain",
+                new FileInputStream(primeiroArquivo.getFile()).readAllBytes()
+        )
+
+        when:
+        def usuarios = service.converterParaNovoModelo(file, 112, null, null)
+
+        then:
+        usuarios.size() == 1
+        usuarios.get(0).pedidos.size() == 1
+        usuarios.get(0).nome == "Ms. Maryland Klocko"
+
     }
 }
 

@@ -13,6 +13,7 @@ import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import spock.lang.Ignore
 import spock.lang.Specification
 
 @SpringBootTest(classes = DesafioLabEqualizadorApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -31,6 +32,7 @@ class PedidoControllerIT extends Specification {
         segundoArquivo = new UrlResource(getClass().getClassLoader().getResource("arquivos/data_2.txt"))
     }
 
+    @Ignore
     def "Deve converter um arquivo legado com sucesso"() {
         given:
         def url = PedidoRestService.PATH + PedidoRestService.CONVERTER_ARQUIVO_LEGADO

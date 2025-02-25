@@ -30,8 +30,8 @@ public interface PedidoRestService {
     @PostMapping(CONVERTER_ARQUIVO_LEGADO)
     ResponseEntity<List<UsuarioDTO>> converterPedido(
             @RequestParam("file") MultipartFile file,
-            @RequestParam("idPedido") Long idPedido,
-            @RequestParam("dataInicio") LocalDate dataInicio,
-            @RequestParam("dataFim") LocalDate dataFim
+            @RequestParam(value = "orderId", required = false) Long idPedido,
+            @RequestParam(value = "beginDate", required = false) LocalDate dataInicio,
+            @RequestParam(value = "endDate", required = false) LocalDate dataFim
     );
 }

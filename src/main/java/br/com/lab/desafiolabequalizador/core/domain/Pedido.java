@@ -1,6 +1,7 @@
 package br.com.lab.desafiolabequalizador.core.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -11,15 +12,15 @@ import java.util.stream.Collectors;
 import static br.com.lab.desafiolabequalizador.utils.PedidoUtils.singleOrThrow;
 
 @Getter
-public class Pedido {
+@NoArgsConstructor
+public class Pedido extends SerializableEntity{
 
-    private final Long id;
-    private final BigDecimal valor;
-    private final LocalDate data;
-    private final List<Produto> produtos;
+    private BigDecimal valor;
+    private LocalDate data;
+    private List<Produto> produtos;
 
     public Pedido(List<PedidoLegado> pedidoLegados) {
-        this.id = pedidoLegados.stream().map(PedidoLegado::getIdPedido).findFirst().orElse(null);
+        super(pedidoLegados.stream().map(PedidoLegado::getIdPedido).findFirst().orElse(null));
         this.produtos = mapearProdutos(pedidoLegados);
         this.valor = calcularValorTotal(this.produtos);
         this.data = extrairData(pedidoLegados);

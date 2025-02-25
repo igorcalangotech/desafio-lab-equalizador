@@ -1,15 +1,18 @@
 package br.com.lab.desafiolabequalizador.core.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
 @Getter
-@AllArgsConstructor
-public class Produto {
+@NoArgsConstructor
+public class Produto extends SerializableEntity {
 
-    private Long id;
     private BigDecimal valor;
 
+    public Produto(Long id, BigDecimal valor) {
+        super(id);
+        this.valor = valor;
+    }
 }
