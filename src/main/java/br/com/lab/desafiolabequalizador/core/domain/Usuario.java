@@ -1,6 +1,5 @@
 package br.com.lab.desafiolabequalizador.core.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

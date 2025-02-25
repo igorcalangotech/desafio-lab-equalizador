@@ -4,7 +4,6 @@ import br.com.lab.desafiolabequalizador.api.dto.UsuarioDTO;
 import br.com.lab.desafiolabequalizador.api.v1.PedidoRestService;
 import br.com.lab.desafiolabequalizador.core.ports.driver.PedidoService;
 import br.com.lab.desafiolabequalizador.mapper.UsuarioMapper;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

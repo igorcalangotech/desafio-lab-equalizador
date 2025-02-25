@@ -13,7 +13,7 @@ import static br.com.lab.desafiolabequalizador.utils.PedidoUtils.singleOrThrow;
 
 @Getter
 @NoArgsConstructor
-public class Pedido extends SerializableEntity{
+public class Pedido extends SerializableEntity {
 
     private BigDecimal valor;
     private LocalDate data;
